@@ -1,0 +1,12 @@
+[[lang]]
+name = "rust"
+identifiers = ["Cargo.toml"]
+targets = ["target"]
+
+[[lang]]
+name = "nodejs"
+identifiers = ["package.json"]
+targets = ["node_modules"]
+
+# [nodejs]
+# identifier = []
