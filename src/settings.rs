@@ -1,5 +1,7 @@
 use clap::Parser;
 use serde::{Deserialize, Serialize};
+use std::fs;
+use std::path::PathBuf;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Lang {
@@ -15,6 +17,7 @@ pub struct Langs {
 
 #[derive(Debug)]
 pub struct Config {
+    pub path: PathBuf,
     pub force: bool,
     pub verbose: bool,
     pub langs: Vec<Lang>,
@@ -24,6 +27,10 @@ pub struct Config {
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
+    /// Path from which to run the program
+    #[arg(default_value_t = String::from("."))]
+    path: String,
+    
     /// Delete build folders without asking
     #[arg(short, long, default_value_t = false)]
     force: bool,
@@ -51,7 +58,10 @@ pub fn generate_config() -> Config {
         }
     }
 
+    let path = PathBuf::from(&args.path).canonicalize().unwrap();
+
     Config {
+        path,
         force: args.force,
         verbose: args.verbose,
         langs
