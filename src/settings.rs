@@ -2,17 +2,13 @@ use clap::Parser;
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::PathBuf;
+use std::collections::HashMap;
+use config::Config as ConfigRs;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct Lang {
-    pub name: String,
+pub struct Params {
     pub identifiers: Vec<String>,
     pub targets: Vec<String>,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Langs {
-    pub lang: Vec<Lang>,
 }
 
 #[derive(Debug)]
@@ -20,7 +16,7 @@ pub struct Config {
     pub path: PathBuf,
     pub force: bool,
     pub verbose: bool,
-    pub langs: Vec<Lang>,
+    pub langs: HashMap<String, Params>,
 }
 
 /// Simple program to greet a person
@@ -45,13 +41,17 @@ struct Args {
 }
 
 pub fn generate_config() -> Config {
-    let config_str = std::fs::read_to_string("config.toml").unwrap();
-    let mut langs: Vec<Lang> = toml::from_str::<Langs>(&config_str).unwrap().lang;
+    let mut langs = ConfigRs::builder()
+        .add_source(config::File::with_name("config.toml"))
+        .build()
+        .unwrap()
+        .try_deserialize::<HashMap<String, Params>>()
+        .unwrap();
 
     let args = Args::parse();
 
     if let Some(only) = args.only {
-        langs.retain(|l| l.name == only);
+        langs.retain(|k, _| *k == only);
         if langs.is_empty() {
             eprintln!("Language {} not found in config.toml (specified by --only)", only);
             std::process::exit(1);

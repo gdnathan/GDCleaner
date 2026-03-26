@@ -1,10 +1,8 @@
-[[lang]]
-name = "rust"
+[rust]
 identifiers = ["Cargo.toml"]
 targets = ["target"]
 
-[[lang]]
-name = "nodejs"
+[nodejs]
 identifiers = ["package.json"]
 targets = ["node_modules"]
 
