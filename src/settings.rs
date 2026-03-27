@@ -18,10 +18,8 @@ pub struct Config {
     pub verbose: bool,
     /// Identify language name from a file name
     pub lang_identifier: HashMap<String, String>,
-    /// Find all related target from the language name
-    pub lang_target: HashMap<String, Vec<String>>,
-    /// Used to quickly verify if a file name correspond to a target without itterating
-    pub all_targets: HashMap<String, ()>
+    /// Identify language name from a target name
+    pub lang_target: HashMap<String, String>,
 }
 
 /// Simple program to greet a person
@@ -66,16 +64,14 @@ pub fn generate_config() -> Config {
     let path = PathBuf::from(&args.path).canonicalize().unwrap();
 
     let mut lang_identifier = HashMap::<String, String>::new();
-    let mut lang_target = HashMap::<String, Vec<String>>::new();
-    let mut all_targets = HashMap::<String, ()>::new();
+    let mut lang_target = HashMap::<String, String>::new();
 
     langs.into_iter().for_each(|(name, params)| {
         for identifier in params.identifiers {
             lang_identifier.insert(identifier, name.clone());
         }
-        lang_target.insert(name.clone(), params.targets.clone());
         for target in params.targets {
-            all_targets.insert(target, ());
+            lang_target.insert(target, name.clone());
         }
     });
 
@@ -85,6 +81,5 @@ pub fn generate_config() -> Config {
         verbose: args.verbose,
         lang_identifier,
         lang_target,
-        all_targets
     }
 }
