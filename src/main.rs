@@ -1,7 +1,7 @@
 mod settings;
 use settings::{Config, generate_config};
 
-// mod discovery;
+mod discovery;
 
 fn main() {
     let config = generate_config();
