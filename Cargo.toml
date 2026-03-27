@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-tokio = { version = "1.50.0", features = ["sync"]}
+tokio = { version = "1.50.0", features = ["sync", "rt", "fs"]}
 clap = {version = "4.6.0", features = ["derive"]}
 serde = { version = "1.0.228", features = ["derive"]}
 config = "0.15.22"
