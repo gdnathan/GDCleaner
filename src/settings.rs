@@ -11,7 +11,7 @@ pub struct Params {
     pub targets: Vec<String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Config {
     pub path: PathBuf,
     pub force: bool,
@@ -20,6 +20,7 @@ pub struct Config {
     pub lang_identifier: HashMap<String, String>,
     /// Identify language name from a target name
     pub lang_target: HashMap<String, String>,
+    pub skip_size: bool
 }
 
 /// Simple program to greet a person
@@ -41,6 +42,10 @@ struct Args {
     /// Only run the program for this specific target language
     #[arg(long)]
     only: Option<String>,
+
+    /// Skip size calculation. This will clearly boost speed
+    #[arg(long, short, default_value_t = false)]
+    pub skip_size: bool
 }
 
 pub fn generate_config() -> Config {
@@ -81,5 +86,6 @@ pub fn generate_config() -> Config {
         verbose: args.verbose,
         lang_identifier,
         lang_target,
+        skip_size: args.skip_size
     }
 }
