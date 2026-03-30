@@ -2,8 +2,6 @@ use clap::Parser;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use std::collections::HashMap;
-use config::Config as ConfigRs;
-use dirs;
 
 const DEFAULT_CONFIG: &str = include_str!("../config.toml");
 
