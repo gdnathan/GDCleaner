@@ -5,6 +5,8 @@ use std::collections::HashMap;
 use config::Config as ConfigRs;
 use dirs;
 
+const DEFAULT_CONFIG: &str = include_str!("../config.toml");
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Params {
     pub identifiers: Vec<String>,
@@ -49,13 +51,8 @@ struct Args {
 }
 
 pub fn generate_config() -> Config {
-    let config_path = config_path();
-    let mut langs = ConfigRs::builder()
-        .add_source(config::File::with_name(&config_path.to_string_lossy()))
-        .build()
-        .unwrap()
-        .try_deserialize::<HashMap<String, Params>>()
-        .unwrap();
+
+    let mut langs: HashMap<String, Params> = toml::from_str(DEFAULT_CONFIG).unwrap();
 
     let args = Args::parse();
 
@@ -90,15 +87,3 @@ pub fn generate_config() -> Config {
         skip_size: args.skip_size
     }
 }
-
-fn config_path() -> PathBuf {
-    let local = PathBuf::from("config.toml");
-    if local.exists() {
-        return local;
-    }
-    dirs::config_dir()
-        .expect("Error: could not locate config file")
-        .join("gdcleaner")
-        .join("config.toml")
-}
-
