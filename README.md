@@ -51,3 +51,11 @@ target = ["node_modules"]
 
 - `identifier` — files used to detect the language in a directory
 - `target` — folders to flag for deletion when the language is detected
+
+## Install on your system
+```
+make install                          # installs to ~/.local/bin
+make install INSTALL_DIR=/usr/local/bin  # system-wide
+make uninstall                        # remove binary (keeps config)
+make clean                            # cargo clean
+```

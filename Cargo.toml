@@ -1,6 +1,11 @@
 [package]
 name = "gdcleaner"
-version = "0.1.0"
+license = "Apache-2.0"
+description = "A simple, asynchronous cleaning tool to delete dependecies files taking up a lot of space "
+version = "1.0.0"
+homepage = "https://github.com/gdnathan/GDCleaner"
+repository = "https://github.com/gdnathan/GDCleaner"
+readme = "README.md"
 edition = "2024"
 
 [dependencies]
