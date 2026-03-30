@@ -28,6 +28,9 @@ async fn main() {
 
     let mut cleared_size = 0;
     for project in project_folders {
+        if project.folders.is_empty() {
+            continue
+        }
         println!("🗑️ Deleting folders for project {}", project.project_name);
         'folder: for folder in project.folders {
             if config.force {

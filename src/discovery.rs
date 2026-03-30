@@ -126,7 +126,7 @@ fn get_size(config: &Arc<Config>, path: &PathBuf) -> u64 {
         })
         .unwrap_or_else(|e| {
             eprintln!("Error: Couldn't run du: {e}");
-            DU_FAILED.set(());
+            let _ = DU_FAILED.set(());
             0
         })
 }
