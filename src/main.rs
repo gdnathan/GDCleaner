@@ -21,18 +21,18 @@ async fn main() {
     }
 
     println!(
-        "Discovered {} projects to clean in {} ms",
+        "💡 Discovered {} projects to clean in {} ms \n",
         project_folders.len(),
         chronometer.elapsed().as_millis()
     );
 
     let mut cleared_size = 0;
     for project in project_folders {
-        println!("Deleting folders for project {}", project.project_name);
+        println!("🗑️ Deleting folders for project {}", project.project_name);
         'folder: for folder in project.folders {
             if config.force {
                 match std::fs::remove_dir_all(folder.path) {
-                    Err(e) => eprintln!("Could not remove {} : {:?}", folder.name, e),
+                    Err(e) => eprintln!("❌ Error: Could not remove {} : {:?}", folder.name, e),
                     Ok(_) => cleared_size += folder.size,
                 }
                 continue 'folder;
@@ -40,31 +40,37 @@ async fn main() {
 
             'user: loop {
                 let mut s = String::new();
-                println!("Delete \"{}\" ? [Y/n/path]", folder.name);
-                std::io::stdin()
-                    .read_line(&mut s)
-                    .expect("Did not enter a correct string");
+                println!("❓ Delete \"{}\" ? [Y/n/path]", folder.name);
+                if let Err(e) = std::io::stdin().read_line(&mut s) {
+                    eprintln!("❌ Error: Could not read input: {}", e);
+                    continue 'user;
+                }
+                s = s.to_lowercase();
                 match &*s {
-                    "Y\n" | "y\n" | "\n" => {
+                    "y\n" | "\n" => {
                         break 'user;
                     }
-                    "N\n" | "n\n" => {
+                    "n\n" => {
                         continue 'folder;
                     }
+                    "path\n" => {
+                        println!("💡 Path: {}", folder.path.display());
+                        continue 'user
+                    }
                     _ => {
-                        println!("Invalid input");
+                        println!("❌ Error: Invalid input");
                         continue 'user;
                     }
                 }
             }
             match std::fs::remove_dir_all(folder.path) {
-                Err(e) => eprintln!("Could not remove {} : {:?}", folder.name, e),
+                Err(e) => eprintln!("❌ Error: Could not remove {} : {:?}", folder.name, e),
                 Ok(_) => cleared_size += folder.size,
             }
         }
     }
 
-    println!("Cleared size: {} bytes !", cleared_size);
+    println!("✅ Cleared size: {} bytes !", cleared_size);
 }
 
 fn print_discovery_info(project_folders: &Vec<IdentifiedFolder>) {

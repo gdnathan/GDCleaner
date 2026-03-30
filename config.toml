@@ -1,10 +1,54 @@
-[rust]
-identifiers = ["Cargo.toml"]
-targets = ["target"]
+[[lang]]
+name = "Rust"
+identifier = ["Cargo.toml"]
+target = ["target"]
 
-[nodejs]
-identifiers = ["package.json"]
-targets = ["node_modules"]
+[[lang]]
+name = "Node.js"
+identifier = ["package.json"]
+target = ["node_modules", "dist", ".next", ".nuxt", "out", "build", ".cache", ".turbo", ".svelte-kit"]
 
-# [nodejs]
-# identifier = []
+[[lang]]
+name = "Python"
+identifier = ["pyproject.toml", "requirements.txt", "setup.py"]
+target = ["__pycache__", "dist", "venv", ".venv", ".mypy_cache", ".pytest_cache", ".ruff_cache", "htmlcov", ".eggs"]
+
+[[lang]]
+name = "Java"
+identifier = ["pom.xml", "build.gradle", "build.gradle.kts"]
+target = ["target", "build", ".gradle", "out"]
+
+[[lang]]
+name = "Go"
+identifier = ["go.mod"]
+target = ["bin", "vendor"]
+
+[[lang]]
+name = "C/C++"
+identifier = ["CMakeLists.txt", "Makefile"]
+target = ["build", "cmake-build-debug", "cmake-build-release", ".cache"]
+
+[[lang]]
+name = "Elixir"
+identifier = ["mix.exs"]
+target = ["_build", "deps"]
+
+[[lang]]
+name = "Haskell"
+identifier = ["stack.yaml", "cabal.project"]
+target = ["dist", "dist-newstyle", ".stack-work"]
+
+[[lang]]
+name = "Dotnet"
+identifier = ["*.csproj", "*.sln"]
+target = ["bin", "obj"]
+
+[[lang]]
+name = "Ruby"
+identifier = ["Gemfile"]
+target = [".bundle", "vendor", "tmp"]
+
+[[lang]]
+name = "PHP"
+identifier = ["composer.json"]
+target = ["vendor", "var"]
