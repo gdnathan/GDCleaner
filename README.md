@@ -54,8 +54,5 @@ target = ["node_modules"]
 
 ## Install on your system
 ```
-make install                          # installs to ~/.local/bin
-make install INSTALL_DIR=/usr/local/bin  # system-wide
-make uninstall                        # remove binary (keeps config)
-make clean                            # cargo clean
+cargo install gdcleaner
 ```
