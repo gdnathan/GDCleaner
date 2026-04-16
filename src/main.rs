@@ -31,8 +31,17 @@ async fn main() {
 
     let cleared_size = start_cleanup(&config, project_folders).await;
 
-    println!("✅ Cleared size: {} bytes !", cleared_size);
+    let display = if cleared_size >= 1_000_000_000 {
+        format!("{:.2} GB", cleared_size as f64 / 1_000_000_000.0)
+    } else if cleared_size >= 1_000_000 {
+        format!("{:.2} MB", cleared_size as f64 / 1_000_000.0)
+    } else if cleared_size >= 1_000 {
+        format!("{:.2} KB", cleared_size as f64 / 1_000.0)
+    } else {
+        format!("{} bytes", cleared_size)
+    };
 
+    println!("✅ Cleared size: {}", display);
 }
 
 fn print_discovery_info(project_folders: &Vec<IdentifiedFolder>) {

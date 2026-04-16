@@ -1,4 +1,4 @@
- - Better display cleared size (in gigabytes)
- - Also delete files (ex: "tmp" files will not be deleted for now)
- - Show an "exploring..." or "Loading..." message when working
- - do not add repos with no folder to delete to the count of repos to clean (maybe will speed )
+ [x] - Better display cleared size (in gigabytes)
+ [x] - Also delete files (ex: "tmp" files will not be deleted for now)
+ [ ] - Show an "exploring..." or "Loading..." message when working
+ [ ] - do not add repos with no folder to delete to the count of repos to clean (maybe will speed )
