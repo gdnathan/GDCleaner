@@ -44,7 +44,6 @@ pub async fn scan_folder(
             while let Ok(Some(entry)) = dir.next_entry().await {
                 empty = false;
                 let file_name = entry.file_name().to_string_lossy().to_string();
-                let size = get_size(&config, &entry.path());
 
                 if let Some(name) = config.lang_identifier.get(&file_name) {
                     language_name = Some(name.clone());
@@ -53,7 +52,7 @@ pub async fn scan_folder(
                     potential_targets.push(Folder {
                         path: entry.path(),
                         name: file_name.to_string(),
-                        size: size,
+                        size: 0,
                     })
                 }
             }
@@ -75,6 +74,8 @@ pub async fn scan_folder(
     }
 
     potential_targets.retain(|folder| config.lang_target.get(&folder.name).is_some());
+    potential_targets.iter_mut().map(|f| f.size = get_size(&config, &f.path));
+
     let size = potential_targets
         .iter()
         .fold(0, |size, folder| size + folder.size);
